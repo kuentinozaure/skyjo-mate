@@ -90,8 +90,9 @@ async function handleFileUpload(event: Event) {
       <h3>How it works :</h3>
 
       <ul>
+        <!-- Take a photo of your Skyjo grid or -->
         <li>
-          Take a photo of your Skyjo grid or analyze an existing photo.
+          Analyze your skyjo grid from an existing photo.
         </li>
         <li>
           The app automatically calculates the points for each player at the end of the round.
