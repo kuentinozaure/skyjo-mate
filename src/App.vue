@@ -12,9 +12,9 @@ const cameraPreview = ref("")
 const fileInput = ref<HTMLInputElement | null>(null);
 
 
-function onCalculMySkyjoBoardClick() {
-  displayCamera.value = true
-}
+// function onCalculMySkyjoBoardClick() {
+//   displayCamera.value = true
+// }
 
 async function snapshotTaken(data: string | null) {
   if (data) {
