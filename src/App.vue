@@ -9,6 +9,7 @@ const skyjoBoardAnalysis = ref<SkyjoGameAnalysis | null>(null);
 const displayCamera = ref(false);
 const displayPreview = ref(false)
 const cameraPreview = ref("")
+const fileInput = ref<HTMLInputElement | null>(null);
 
 
 function onCalculMySkyjoBoardClick() {
@@ -36,7 +37,6 @@ const calculateSkyjoSum = computed(() => {
 
 const calculateLine1 = computed(() => {
   if (!skyjoBoardAnalysis.value) return ""
-
   return skyjoBoardAnalysis.value.line1.toString()
 })
 
@@ -56,6 +56,27 @@ const previewAccordingPhotoTaken = computed(() => {
   if (!cameraPreview.value || cameraPreview.value === "") return "";
   return cameraPreview.value
 })
+
+function openMySkyjoGrid() {
+  // Trigger file input click event
+  fileInput.value?.click();
+}
+
+async function handleFileUpload(event: Event) {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file && file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const dataUrl = e.target?.result as string;
+      // Process the image (e.g., send it to skyjoEndGameAnalysis)
+      cameraPreview.value = dataUrl;
+      displayPreview.value = true;
+
+      skyjoBoardAnalysis.value = await skyjoEndGameAnalysis(cameraPreview.value);
+    };
+    reader.readAsDataURL(file);
+  }
+}
 
 
 </script>
@@ -86,6 +107,16 @@ const previewAccordingPhotoTaken = computed(() => {
       <button @click="onCalculMySkyjoBoardClick()">
         Calcul my skyjo board
       </button>
+
+      <button @click="openMySkyjoGrid()">
+        Import my skyjo grid
+      </button>
+
+      <input type="file" @change="handleFileUpload" accept="image/*" style="display: none;" ref="fileInput" />
+
+      <!-- <button @click="openMySkyjoGrid()">
+        Import my skyjo grid
+      </button> -->
     </div>
 
     <!-- Display the camera for capture a screenshot -->

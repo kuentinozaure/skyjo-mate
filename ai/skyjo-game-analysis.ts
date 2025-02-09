@@ -25,6 +25,8 @@ const PROMPT_TO_ANALYSIS_SKYJO_BOARD = `
                line2: [1,4,3,5], // image show first line : card 1, card 4, card 3, card 5
                line3: [2,8,11,0] // image show first line : card 2, card 8, card 11, card 0
             }
+    Constraint: 
+      Avoid returning the number as one number, eg: [1,2,3,5] -> not return 1235, return comma separated number
 `;
 
 export async function skyjoEndGameAnalysis(
