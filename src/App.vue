@@ -34,6 +34,24 @@ const calculateSkyjoSum = computed(() => {
   return sumLine1 + sumLine2 + sumLine3;
 })
 
+const calculateLine1 = computed(() => {
+  if (!skyjoBoardAnalysis.value) return ""
+
+  return skyjoBoardAnalysis.value.line1.toString()
+})
+
+const calculateLine2 = computed(() => {
+  if (!skyjoBoardAnalysis.value) return ""
+
+  return skyjoBoardAnalysis.value.line2.toString()
+})
+
+const calculateLine3 = computed(() => {
+  if (!skyjoBoardAnalysis.value) return ""
+
+  return skyjoBoardAnalysis.value.line3.toString()
+})
+
 const previewAccordingPhotoTaken = computed(() => {
   if (!cameraPreview.value || cameraPreview.value === "") return "";
   return cameraPreview.value
@@ -81,6 +99,18 @@ const previewAccordingPhotoTaken = computed(() => {
       <div>
         Here your result :
         {{ calculateSkyjoSum }}
+
+        <div v-if="skyjoBoardAnalysis !== null">
+          <h1>First line</h1>
+          {{ calculateLine1 }}
+
+          <h1>Second line</h1>
+          {{ calculateLine2 }}
+
+          <h1>Thrid line</h1>
+          {{ calculateLine3 }}
+
+        </div>
       </div>
     </div>
   </div>

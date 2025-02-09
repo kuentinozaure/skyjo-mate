@@ -47,11 +47,6 @@ onMounted(() => {
     <!-- width="320" height="240" -->
     <canvas ref="canvasElement" style="display: none;  height: 100dvh;width: 100dvw;"></canvas>
 
-    <!-- <button @click="takeSnapshot">Take Snapshot</button> -->
-    <!-- <div v-if="imageData">
-            <h3>Captured Image:</h3>
-            <img :src="imageData" alt="Captured Image" />
-        </div> -->
     <div class="camera-container" @click="takeSnapshot">
         <!-- Camera svg -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none"
