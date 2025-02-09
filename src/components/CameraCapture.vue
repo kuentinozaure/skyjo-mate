@@ -74,8 +74,4 @@ video {
     object-fit: cover;
     position: absolute;
 }
-
-/* button {
-    margin-top: 10px;
-} */
 </style>

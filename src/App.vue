@@ -104,9 +104,10 @@ async function handleFileUpload(event: Event) {
         Ready? Click the button below to get started!
       </h4>
 
-      <button @click="onCalculMySkyjoBoardClick()">
+      <!-- Need to be reworked IOS display a video player instead a cam preview -->
+      <!-- <button @click="onCalculMySkyjoBoardClick()">
         Calcul my skyjo board
-      </button>
+      </button> -->
 
       <button @click="openMySkyjoGrid()">
         Import my skyjo grid
@@ -114,9 +115,6 @@ async function handleFileUpload(event: Event) {
 
       <input type="file" @change="handleFileUpload" accept="image/*" style="display: none;" ref="fileInput" />
 
-      <!-- <button @click="openMySkyjoGrid()">
-        Import my skyjo grid
-      </button> -->
     </div>
 
     <!-- Display the camera for capture a screenshot -->
@@ -154,25 +152,9 @@ async function handleFileUpload(event: Event) {
   margin: 8px 16px;
 }
 
-/* .image {
-  height: 40vh;
-  width: 40vh;
+.image {
+  height: 100%;
+  width: 100%;
+  object-fit: fill;
 }
-
-.fade-out {
-  animation: fadeOut 1s forwards;
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  100% {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-*/
 </style>
