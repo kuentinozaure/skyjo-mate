@@ -10,8 +10,13 @@ const emit = defineEmits();
 async function startCamera() {
     if (videoElement.value) {
         try {
+            const constraints: MediaStreamConstraints = {
+                video: {
+                    facingMode: 'environment', // Force back camera (environment-facing)
+                },
+            };
             // Ask for camera permission
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
             videoElement.value.srcObject = stream;
         } catch (err) {
             console.error("Error accessing camera: ", err);
