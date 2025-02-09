@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { skyjoEndGameAnalysis } from '../ai/skyjo-game-analysis'
-import { SkyjoGameAnalysis } from '../interface/skyjo-game-analysis';
+import { type SkyjoGameAnalysis } from '../interface/skyjo-game-analysis';
 import CameraCapture from './components/CameraCapture.vue';
-import { IMAGE_BASE_64_PNG } from '../constant/image';
 
 
 const skyjoBoardAnalysis = ref<SkyjoGameAnalysis | null>(null);
@@ -16,11 +15,11 @@ function onCalculMySkyjoBoardClick() {
   displayCamera.value = true
 }
 
-async function snapshotTaken(data) {
+async function snapshotTaken(data: string | null) {
   if (data) {
     displayCamera.value = false
     displayPreview.value = true
-    cameraPreview.value = data.value as string
+    cameraPreview.value = data
     skyjoBoardAnalysis.value = await skyjoEndGameAnalysis(cameraPreview.value);
   }
 }

@@ -1,5 +1,5 @@
 import Groq from "groq-sdk";
-import { SkyjoGameAnalysis } from "../interface/skyjo-game-analysis";
+import { type SkyjoGameAnalysis } from "../interface/skyjo-game-analysis";
 
 const VISION_MODEL_USED = "llama-3.2-90b-vision-preview";
 

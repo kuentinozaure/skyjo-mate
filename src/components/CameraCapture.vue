@@ -25,7 +25,7 @@ function takeSnapshot() {
         if (context) {
             context.drawImage(videoElement.value, 0, 0, canvasElement.value.width, canvasElement.value.height);
             imageData.value = canvasElement.value.toDataURL('image/png');
-            emit('snapshotTaken', imageData);
+            emit('snapshotTaken', imageData.value);
         }
     }
 }
