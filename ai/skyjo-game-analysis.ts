@@ -9,6 +9,9 @@ const PROMPT_TO_ANALYSIS_SKYJO_BOARD = `
 
     Give all the number (negative / positive) you see on the image
     The image can have max 3 row and max 4 column
+    The 6 and 9 can be confused, but if
+      - The color red is identified the number should be 9
+      - The color yellow is identified the number should be 6
 
     -----------------------------
     Output :
