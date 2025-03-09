@@ -20,11 +20,11 @@ defineProps({
 const preCalculateSkyjoCard = ((cardValue: number | undefined) => {
     // Iterate over the object keys 
     for (const key in SKYJO_COLORS_CARD) {
-        const range = SKYJO_COLORS_CARD[key].condition;
+        const range = SKYJO_COLORS_CARD[key as keyof typeof SKYJO_COLORS_CARD].condition as number[];
 
         // If the number is included in the range, return the color
-        if (range.includes(cardValue)) {
-            return SKYJO_COLORS_CARD[key].color;
+        if (range.includes(cardValue || 0)) {
+            return SKYJO_COLORS_CARD[key as keyof typeof SKYJO_COLORS_CARD].color;
         }
     }
     return SKYJO_COLORS_CARD.default.color;
