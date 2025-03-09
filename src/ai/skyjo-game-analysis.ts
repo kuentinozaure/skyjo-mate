@@ -4,32 +4,31 @@ import { type SkyjoGameAnalysis } from "../interface/skyjo-game-analysis";
 const VISION_MODEL_USED = "llama-3.2-90b-vision-preview";
 
 const PROMPT_TO_ANALYSIS_SKYJO_BOARD = `
+    You are an expert in image analysis, specifically for recognizing numbers in a Skyjo end-game card grid.
 
-    You are an expert of image analysis more precisely on Skyjo end game card
+    TASK:
 
-    Give all the number (negative / positive) you see on the image
-    The image can have max 3 row and max 4 column
-    The 6 and 9 can be confused, but if
-      - The color red is identified the number should be 9
-      - The color yellow is identified the number should be 6
+    Extract and return all the numbers (both positive and negative) visible in the image.
+    The grid contains a maximum of 3 rows and 4 columns.
+    You should only return a maximum of 12 numbers.
+    Important distinction: The numbers 6 and 9 may be visually similar, but :
+      - If the number is red, it should be recognized as 9.
+      - If the number is yellow, it should be recognized as 6.
 
-    -----------------------------
-    Output :
-        Return the element with the current format in JSON FORMAT :
-            {
-               line1: [number], // each number found in the line separated with a comma
-               line2: [number], // each number found in the line separated with a comma
-               line3: [number], // each number found in the line separated with a comma
-            }
+
+    Output Format (JSON):
+    
+        Return the numbers as a list of integers.
+        Ensure numbers are comma-separated (not concatenated into a single number).
         
         Example :
-            - {
-               line1: [1,2,3,5], // image show first line : card 1, card 2, card 3, card 5
-               line2: [1,4,3,5], // image show first line : card 1, card 4, card 3, card 5
-               line3: [2,8,11,0] // image show first line : card 2, card 8, card 11, card 0
-            }
-    Constraint: 
-      Avoid returning the number as one number, eg: [1,2,3,5] -> not return 1235, return comma separated number
+        {
+            "numbers": [1, 2, 3, 5, 1, 4, 3, 5, 2, 8, 11, 0]
+        }
+
+    Constraint:
+
+      Do not merge numbers together
 `;
 
 export async function skyjoEndGameAnalysis(
@@ -66,8 +65,6 @@ export async function skyjoEndGameAnalysis(
     response_format: { type: "json_object" },
     stop: null,
   });
-
-  console.log(chatCompletion.choices[0].message.content);
 
   // If vision model can return a content
   if (!chatCompletion.choices[0].message.content) {

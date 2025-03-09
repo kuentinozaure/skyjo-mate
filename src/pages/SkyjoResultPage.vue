@@ -1,13 +1,13 @@
 <template>
     <div class="skyjo-result-container">
         <h3 class="score-info" v-bind:class="{ 'active': !elementToShow.includes('score') }">
-            You scored 20 points! 🥳
+            You scored {{ store.totalRoundPoint }} point(s)! 🥳
         </h3>
 
         <div class="breakdown-container" v-bind:class="{ 'active': !elementToShow.includes('breakdown') }">
             <span>Here the breakdown of your board:</span>
             <div class="skyjo-board">
-                <SkyjoCard :cardValue="item" v-for="(item, index) in boardBreakDown" :key="index" />
+                <SkyjoCard :cardValue="item" v-for="(item, index) in store.boardAnalysis?.numbers" :key="index" />
             </div>
         </div>
     </div>
@@ -16,12 +16,13 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import SkyjoCard from '../components/SkyjoCard.vue'
+import { useSkyjoStore } from '../store/skyjoStore';
 
+const store = useSkyjoStore();
 const elementToShow = ref(['score', 'breakdown']);
-const boardBreakDown = ref([-1, 0, 1, 5, 9, 12, 1, 1, 1, 1, 1, 1]);
 
 
-onMounted(() => {
+onMounted(async () => {
     setTimeout(() => {
         elementToShow.value.shift();
     }, 500)

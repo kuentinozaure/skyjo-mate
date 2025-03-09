@@ -36,11 +36,14 @@ import { ref } from 'vue';
 import type { SkyjoGameAnalysis } from '../interface/skyjo-game-analysis';
 import { skyjoEndGameAnalysis } from '../ai/skyjo-game-analysis';
 import { router } from '../../router';
+import { useSkyjoStore } from '../store/skyjoStore';
 
 // variables section
 const fileInput = ref<HTMLInputElement | null>(null);
-const photoImported = ref("")
 const skyjoBoardAnalysis = ref<SkyjoGameAnalysis | null>(null);
+
+
+const store = useSkyjoStore();
 
 /**
  * This method mock the click on the file input to open the file picker, 
@@ -48,9 +51,7 @@ const skyjoBoardAnalysis = ref<SkyjoGameAnalysis | null>(null);
  */
 function openMySkyjoGrid() {
     // Trigger file input click event
-    // fileInput.value?.click();
-
-    router.push('/result')
+    fileInput.value?.click();
 }
 
 /**
@@ -65,8 +66,10 @@ async function handleFileUpload(event: Event) {
         reader.onload = async (e) => {
             const dataUrl = e.target?.result as string;
             // Process the image (send it to skyjoEndGameAnalysis)
-            photoImported.value = dataUrl;
-            skyjoBoardAnalysis.value = await skyjoEndGameAnalysis(photoImported.value);
+            store.setImage(dataUrl);
+            const boardAnalysisFromLLM = await skyjoEndGameAnalysis(dataUrl);
+            store.setBoardAnalysis(boardAnalysisFromLLM);
+            router.push('/result')
         };
         reader.readAsDataURL(file);
     }
