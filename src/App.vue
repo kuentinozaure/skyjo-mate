@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { skyjoEndGameAnalysis } from '../ai/skyjo-game-analysis'
-import { type SkyjoGameAnalysis } from '../interface/skyjo-game-analysis';
+import { skyjoEndGameAnalysis } from './ai/skyjo-game-analysis'
+import { type SkyjoGameAnalysis } from './interface/skyjo-game-analysis';
 import CameraCapture from './components/CameraCapture.vue';
 
 
@@ -9,7 +9,7 @@ const skyjoBoardAnalysis = ref<SkyjoGameAnalysis | null>(null);
 const displayCamera = ref(false);
 const displayPreview = ref(false)
 const cameraPreview = ref("")
-const fileInput = ref<HTMLInputElement | null>(null);
+
 
 
 // function onCalculMySkyjoBoardClick() {
@@ -57,66 +57,14 @@ const previewAccordingPhotoTaken = computed(() => {
   return cameraPreview.value
 })
 
-function openMySkyjoGrid() {
-  // Trigger file input click event
-  fileInput.value?.click();
-}
-
-async function handleFileUpload(event: Event) {
-  const file = (event.target as HTMLInputElement).files?.[0];
-  if (file && file.type.startsWith('image/')) {
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const dataUrl = e.target?.result as string;
-      // Process the image (e.g., send it to skyjoEndGameAnalysis)
-      cameraPreview.value = dataUrl;
-      displayPreview.value = true;
-
-      skyjoBoardAnalysis.value = await skyjoEndGameAnalysis(cameraPreview.value);
-    };
-    reader.readAsDataURL(file);
-  }
-}
-
 
 </script>
 
 <template>
   <div class="container">
-    <div v-if="!displayCamera && !displayPreview">
-      <h1>Welcome to Skyjo Mate!</h1>
-      <h3>Make your games easier by letting the app calculate your points for you.</h3>
+    <!-- Inject the pages -->
+    <router-view></router-view>
 
-      <h3>How it works :</h3>
-
-      <ul>
-        <!-- Take a photo of your Skyjo grid or -->
-        <li>
-          Analyze your skyjo grid from an existing photo.
-        </li>
-        <li>
-          The app automatically calculates the points for each player at the end of the round.
-        </li>
-      </ul>
-
-      Enjoy the game without worrying about the calculations!
-
-      <h4>
-        Ready? Click the button below to get started!
-      </h4>
-
-      <!-- Need to be reworked IOS display a video player instead a cam preview -->
-      <!-- <button @click="onCalculMySkyjoBoardClick()">
-        Calcul my skyjo board
-      </button> -->
-
-      <button @click="openMySkyjoGrid()">
-        Import my skyjo grid
-      </button>
-
-      <input type="file" @change="handleFileUpload" accept="image/*" style="display: none;" ref="fileInput" />
-
-    </div>
 
     <!-- Display the camera for capture a screenshot -->
     <CameraCapture @snapshotTaken="snapshotTaken" v-if="displayCamera && !displayPreview" />
