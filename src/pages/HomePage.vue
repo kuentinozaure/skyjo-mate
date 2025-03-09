@@ -1,47 +1,46 @@
 <template>
-    <div>
-        <h1>Welcome to Skyjo Mate!</h1>
-        <h3>Make your games easier by letting the app calculate your points for you.</h3>
+    <div v-if="!loadingImage">
+        <h1>Welcome to Skyjo Mate! 🎉</h1>
 
-        <h3>How it works :</h3>
+        <div>
+            <h3>Simplify your game—let the app handle the scoring for you!</h3>
 
-        <ul>
-            <li>
-                Analyze your skyjo grid from an existing photo.
-            </li>
-            <li>
-                The app automatically calculates the points for each player at the end of the round.
-            </li>
-        </ul>
+            <h3>How it works :</h3>
 
-        Enjoy the game without worrying about the calculations!
+            <ul>
+                <li>Snap a photo of your Skyjo grid, and let the app analyze it.</li>
+                <li>Get instant, automatic score calculations for every player.</li>
+            </ul>
 
-        <h4>
-            Ready? Click the button below to get started!
-        </h4>
+            <p>Focus on the fun, and leave the math to us! 🚀</p>
+
+            <h4>Ready to play? Import your Skyjo grid and start scoring!</h4>
 
 
-        <button @click="openMySkyjoGrid()">
-            Import my skyjo grid
-        </button>
+            <button @click="openMySkyjoGrid()">
+                Get My Skyjo Score! 📊
+            </button>
 
-        <input type="file" @change="handleFileUpload" accept="image/*" style="display: none;" ref="fileInput" />
-
+            <input type="file" @change="handleFileUpload" accept="image/*" style="display: none;" ref="fileInput" />
+        </div>
     </div>
+    <di class="loader-container" v-else>
+        <Loader />
+    </di>
+
 </template>
 
 <script setup lang="ts">
 // imports section
 import { ref } from 'vue';
-import type { SkyjoGameAnalysis } from '../interface/skyjo-game-analysis';
 import { skyjoEndGameAnalysis } from '../ai/skyjo-game-analysis';
 import { router } from '../../router';
 import { useSkyjoStore } from '../store/skyjoStore';
+import Loader from '../components/Loader.vue';
 
 // variables section
 const fileInput = ref<HTMLInputElement | null>(null);
-const skyjoBoardAnalysis = ref<SkyjoGameAnalysis | null>(null);
-
+const loadingImage = ref<boolean>(false);
 
 const store = useSkyjoStore();
 
@@ -60,6 +59,7 @@ function openMySkyjoGrid() {
  * @param event The event that triggered the method.
  */
 async function handleFileUpload(event: Event) {
+    loadingImage.value = true;
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file && file.type.startsWith('image/')) {
         const reader = new FileReader();
@@ -69,6 +69,7 @@ async function handleFileUpload(event: Event) {
             store.setImage(dataUrl);
             const boardAnalysisFromLLM = await skyjoEndGameAnalysis(dataUrl);
             store.setBoardAnalysis(boardAnalysisFromLLM);
+            loadingImage.value = false;
             router.push('/result')
         };
         reader.readAsDataURL(file);
@@ -76,4 +77,10 @@ async function handleFileUpload(event: Event) {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.loader-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+</style>
