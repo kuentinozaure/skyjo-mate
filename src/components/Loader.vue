@@ -16,7 +16,7 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import { loaderMessages } from '../../constant/loader-message';
 
 let intervalId: number | null = null;
-const loaderMessage = ref(loaderMessages[0]);
+const loaderMessage = ref(loaderMessages[Math.floor(Math.random() * loaderMessages.length)]);
 
 onMounted(() => {
     intervalId = setInterval(() => {

@@ -1,3 +1,3 @@
 export type SkyjoGameAnalysis = {
-  numbers: number[];
+  numbers: (number | undefined)[];
 };

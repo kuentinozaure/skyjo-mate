@@ -19,7 +19,9 @@ const PROMPT_TO_ANALYSIS_SKYJO_BOARD = `
     Output Format (JSON):
     
         Return the numbers as a list of integers.
+        if you don't see or can't recognize a number, you can skip it and return undefined.
         Ensure numbers are comma-separated (not concatenated into a single number).
+        if you don't see any numbers, return an empty list.
         
         Example :
         {
