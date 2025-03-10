@@ -15,7 +15,11 @@ export const useSkyjoStore = defineStore("skyjo", () => {
   }
 
   const totalRoundPoint = computed(
-    () => boardAnalysis.value?.numbers.reduce((acc, num) => acc + num, 0) ?? 0
+    () =>
+      boardAnalysis.value?.numbers.reduce(
+        (acc, num) => (acc || 0) + (num || 0),
+        0
+      ) ?? 0
   );
 
   return {
